@@ -1,4 +1,3 @@
-const { expect, test } = require('@jest/globals');
 const Player = require('../lib/Player');
 const potion = require('../lib/_mocks_/potion');
 
@@ -49,3 +48,32 @@ test("gets inventory from player or returns false", () => {
     expect(player.getInventory()).toEqual(false);
 });
 
+test("gets player's health value", () => {
+    const player = new Player('Ryan');
+
+    expect(player.getHealth()).toEqual(expect.stringContaining(player.health.toString()));
+});
+
+//Truthy values are values that can be coerced into a boolean
+//example. is a IF statement
+test("Test whether Player is dead or alive", () => {
+    const player = new Player('Ryan');
+    
+    expect(player.isAlive()).toBeTruthy();
+    
+    player.health = 0;
+
+    expect(player.isAlive()).toBeFalsy();
+});
+
+test("to get the players reduced health value", () => {
+    const player = new Player('Ryan');
+    const oldHealth = player.health;
+
+    player.reduceHealth(5);
+
+    expect(player.health).toBe(oldHealth - 5);
+    player.reduceHealth(99999);
+
+    expect(player.health).toBe(0);
+});
