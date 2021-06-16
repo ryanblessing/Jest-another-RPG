@@ -1,4 +1,5 @@
 const Player = require('../lib/Player');
+const Potion = require('../lib/Potion');
 const potion = require('../lib/_mocks_/potion');
 
 /*Require line imports Potion constructor to the test,
@@ -76,4 +77,37 @@ test("to get the players reduced health value", () => {
     player.reduceHealth(99999);
 
     expect(player.health).toBe(0);
+});
+
+test("get players attack value", () => {
+    const player = new Player('Ryan');
+    player.strength = 10;
+
+    expect(player.getAttackValue()).toBeGreaterThanOrEqual(5);
+    expect(player.getAttackValue()).toBeLessThanOrEqual(15);
+});
+
+/*side note: if it has to do with the player itself, you have to creat a new variable  to updated the object?
+then take that variable (player) and add what it is with the empty() function at the end to be able to hold the new?
+then add the expect at the button to finish the failing test before you create the game logic outside of the test?
+all new things need a capital to start? ie. Player and Potion
+-- from text-- need to track whether addPotion works so we need to track the old count, 
+note we are still using potion from previous lesson*/
+test("adds Potion to the inventory", () => {
+    const player = new Player('Ryan');
+    const oldCount = player.inventory.length;
+
+    player.addPotion(new Potion());
+
+    expect(player.inventory.length).toBeGreaterThan(oldCount);
+});
+
+test('uses a potion from inventory', () => {
+    const player = new Player('Ryan');
+    player.inventory = [new Potion(), new Potion(), new Potion()];
+    const oldCount = player.inventory.length;
+
+    player.usePotion(1);
+
+    expect(player.inventory.length).toBeLessThan(oldCount);
 });
